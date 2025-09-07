@@ -1,8 +1,10 @@
-import axios from "axios"
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL; // <-- use env variable
 
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:4000/api/v1", // optional, can simplify URLs
-    withCredentials: true, // important if server uses cookies
+    baseURL: BASE_URL, // now uses the correct URL
+    withCredentials: true,
     headers: {
         "Content-Type": "application/json",
     },
