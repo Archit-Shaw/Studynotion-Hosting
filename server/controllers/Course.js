@@ -336,12 +336,15 @@ exports.getCourseDetails = async (req, res) => {
       },
     })
   } catch (error) {
+    console.log("GET_INSTRUCTOR_COURSES API called");
     return res.status(500).json({
       success: false,
       message: error.message,
     })
   }
 }
+
+
 exports.getFullCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body
@@ -417,28 +420,38 @@ exports.getFullCourseDetails = async (req, res) => {
 // Get a list of Course for a given Instructor
 exports.getInstructorCourses = async (req, res) => {
   try {
-    // Get the instructor ID from the authenticated user or request body
-    const instructorId = req.user.id
+    console.log("GET_INSTRUCTOR_COURSES API called");
 
-    // Find all courses belonging to the instructor
-    const instructorCourses = await Course.find({
-      instructor: instructorId,
-    }).sort({ createdAt: -1 })
+    // Check if req.user exists
+    if (!req.user || !req.user.id) {
+      console.log("No user info in request!");
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: User not found in request",
+      });
+    }
 
-    // Return the instructor's courses
+    const instructorId = req.user.id;
+    console.log("Instructor ID:", instructorId);
+
+    // Fetch courses from DB
+    const instructorCourses = await Course.find({ instructor: instructorId }).sort({ createdAt: -1 });
+    console.log("Courses fetched:", instructorCourses);
+
+    // Send response
     res.status(200).json({
       success: true,
       data: instructorCourses,
-    })
+    });
   } catch (error) {
-    console.error(error)
+    console.error("Error in GET_INSTRUCTOR_COURSES:", error);
     res.status(500).json({
       success: false,
       message: "Failed to retrieve instructor courses",
       error: error.message,
-    })
+    });
   }
-}
+};
 // Delete the Course
 exports.deleteCourse = async (req, res) => {
   try {
