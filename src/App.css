@@ -224,7 +224,8 @@ details > summary::-webkit-details-marker {
 } */
 
 .swiper-slide {
-  height: auto; 
+  height: auto;
+  width: auto !important;
 }
 
 /* .swiper-slide {
