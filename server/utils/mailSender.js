@@ -6,18 +6,14 @@ const mailSender = async (email, title, body) => {
     let transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST, 
       port: 465, 
-      secure: false, 
+      secure: true, 
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
-      tls: {
-        rejectUnauthorized: false, 
-      },
-      connectionTimeout: 10000, 
-    });
 
     await transporter.verify();
+    console.log("Transporter ready for sending.");
 
     // Send the email
     let info = await transporter.sendMail({
