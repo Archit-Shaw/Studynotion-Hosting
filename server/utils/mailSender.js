@@ -12,8 +12,8 @@ const mailSender = async (email, title, body) => {
         pass: process.env.MAIL_PASS,
       },
 
-    await transporter.verify();
-    console.log("Transporter ready for sending.");
+    // await transporter.verify();
+    // console.log("Transporter ready for sending.");
 
     // Send the email
     let info = await transporter.sendMail({
